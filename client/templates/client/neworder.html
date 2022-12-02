@@ -1,0 +1,145 @@
+{% extends "client/base.html" %}
+
+{% load client_extras %}
+
+
+
+
+{% block content %}
+
+	<style>
+		html {
+  font-family: "Nunito";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway";
+}
+
+.card-title {
+  font-weight: bolder;
+}
+
+.input-field input:focus {
+     border-bottom: 1px solid indigo;
+     box-shadow: 0 1px 0 0 indigo;
+   }
+
+
+.background-image {
+
+  background-position: center;
+  background-size: cover;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 1;
+  height: 100%;
+}
+
+.title h3 {
+  margin: 0;
+  padding: 40px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  top: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+
+	</style>
+
+{% block jquery %}
+<script>
+  /*ajax search */
+  $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          console.log(value);
+          $("#neworder tr").filter(function () {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+      });
+  });
+
+
+</script>
+{% endblock %}
+
+<div class="row">
+  <div class="col s6">
+    <div class="input-field col s6">
+      <i class="indigo-text material-icons prefix">search</i>
+      <input type="text" id="myInput" placeholder="Search" class="autocomplete indigo-text" >
+    </div>
+  </div>
+</div>
+
+	<div class="background-image"></div>
+<!-- <div class="title">
+  <h3 class="center-align grey-text">Add Tyre!</h3>
+</div> -->
+<div class="row">
+  <div class="col s16 l4 offset-l4">
+    <div class="card grey lighten-3">
+      <div class="card-content">
+        
+        <h4 class="card-title center-align red-text">New Order</h4>
+        {% if error %}
+            <h4 class="card-title center-align" style="color: red;">{{error}}</h4>
+				{% endif %}
+        
+        <form action="/client/neworder/" method="POST">{% csrf_token %}
+            
+            
+
+          <table class="striped responsive-table center" >
+            <thead>
+              <tr>
+                  <th>Tyre Name</th>
+                  <th>Tyre Size</th>
+                  <th>Tyre Amount</th>
+                  <th>Quantity</th>
+              </tr>
+            </thead>
+          
+            <tbody id="neworder">
+              {% for tyre in tyres %}
+              <tr>
+                <td>{{ tyre.type }}</td>
+                <td>{{ tyre.size }}</td>
+                <td>{{ tyre.amount }}</td>
+                <td>
+                  <input type="number" id="{{tyre.id}}" name="{{tyre.id}}"/>
+                </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+          </table>
+          
+          <div class="row center-align">
+            <button class="btn waves-effect waves-light" style="background-color:red;" type="submit" name="action">Place Order
+              <i class="material-icons right indigo-text">send</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+    M.updateTextFields();
+  });
+	(function () {
+  var height = $(document).height();
+  var background = $('.background-image');
+  background.css('min-height', height);
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+<html lang="en">
+  {% load pwa %}
+{% load static %}
+<head>
+  {% progressive_web_app_meta %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  
+	
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>Geets Tyres</title>
+  
+  <style>
+
+#autocomplete-input::placeholder{
+	text-align:center;
+}
+
+.modal-close{
+  position: absolute;
+  top:10px;
+  right:10px;
+  padding:0;
+  margin:0;
+}
+
+.modal{
+ max-height:100%;
+ overflow:hidden;
+}
+
+  </style>
+
+
+  {%block style %}{% endblock %}
+</head>
+<body>
+
+  <div class="navbar-fixed">
+    <nav class="nav-wrapper red darken-1">
+      <div class="container">
+        <a href="/client/orders/" class="brand-logo">Geeta Tyres</a>
+        <a href="#" class="sidenav-trigger" data-target="mobile-links">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="/client/neworder/">New Order</a></li>
+            <li><a href="/login/logout/">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <ul class="sidenav" id="mobile-links">
+    <li><a href="/client/neworder/">New Order</a></li>
+    <li><a href="/login/logout/">Logout</a></li>
+  </ul>
+  <br/>
+  
+  {% block content %}{% endblock %}
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('.sidenav').sidenav();
+    });
+    $(document).ready(function(){
+  		$('.modal').modal({'dismissible':false});
+ });
+  </script>
+  
+
+
+{% block jquery %}{% endblock %}
+
+  </body>
+  </html>

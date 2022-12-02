@@ -1,0 +1,115 @@
+{% extends "merchant/base.html" %}
+
+
+
+{% block content %}
+
+	<style>
+		html {
+  font-family: "Nunito";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway";
+}
+
+.card-title {
+  font-weight: bolder;
+}
+
+.input-field input:focus {
+     border-bottom: 1px solid indigo;
+     box-shadow: 0 1px 0 0 indigo;
+   }
+
+
+.background-image {
+
+  background-position: center;
+  background-size: cover;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 1;
+  height: 100%;
+}
+
+.title h3 {
+  margin: 0;
+  padding: 40px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  top: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+
+	</style>
+	
+	<div class="background-image"></div>
+<!-- <div class="title">
+  <h3 class="center-align grey-text">Add Tyre!</h3>
+</div> -->
+<div class="row">
+  <div class="col s12 l4 offset-l4">
+    <div class="card grey lighten-3">
+      <div class="card-content">
+        <h4 class="card-title center-align red-text">Add Tyre</h4>
+        {% if error %}
+            <h4 class="card-title center-align" style="color: red;">{{error}}</h4>
+				{% endif %}
+        <form action="/merchant/addtyre/" method="POST">{% csrf_token %}
+          <div class="row">
+            <div class="input-field col s12">
+              <!-- <i class="material-icons prefix indigo-text">account_circle</i> -->
+              <select name="tyretype">
+                <option value="-1" disabled selected>Choose Tyre Type</option>
+                {% for tyretype in tyretypes %}
+                    <tr>
+                        <option value="{{tyretype.type_name}}">{{tyretype.type_name}}</option>
+                    </tr>
+                {% endfor %}
+              </select>
+              <label>Tyre Type</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <!-- <i class="material-icons prefix indigo-text">vpn_key</i> -->
+              <input type="text" id="size" name="size"/>
+              <label class="active" for="size">Tyre Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <!-- <i class="material-icons prefix indigo-text">vpn_key</i> -->
+              <input type="text" id="amount" name="amount"/>
+              <label class="active" for="amount">Tyre amount</label>
+            </div>
+          </div>
+          <div class="row center-align">
+            <button class="btn waves-effect waves-light" style="background-color:red;" type="submit" name="action">Add Tyre
+              <i class="material-icons right indigo-text">send</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+    M.updateTextFields();
+  });
+	(function () {
+  var height = $(document).height();
+  var background = $('.background-image');
+  background.css('min-height', height);
+})();
+</script>
+{% endblock %}

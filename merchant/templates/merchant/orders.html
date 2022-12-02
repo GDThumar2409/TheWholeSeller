@@ -1,0 +1,63 @@
+{% extends "merchant/base.html" %}
+
+{% load mathfilters %}
+
+{% block jquery %}
+<script>
+  /*ajax search */
+  $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          console.log(value);
+          $("#orders tr").filter(function () {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+      });
+  });
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <div class="input-field col s6">
+      <i class="indigo-text material-icons prefix">search</i>
+      <input type="text" id="myInput" placeholder="Search" class="autocomplete indigo-text" >
+    </div>
+  </div>
+</div>
+
+
+<br/>
+
+<table class="striped responsive-table center" >
+  <thead>
+    <tr>
+      <th>Client Name</th>
+        <th>Order Date</th>
+        <th>Amount Remaining</th>
+        <th>Total Amount</th>
+        <th>Order Status</th>
+        <th>View Order</th>
+    </tr>
+  </thead>
+
+  <tbody id="orders">
+    {% for order in orders %}
+    <tr>
+      <td>{{order.Client.name }}</td>
+      <td>{{ order.order_date }}</td>
+      <td>{{ order.order_amount|sub:order.amount_paid }}</td>
+      <td>{{ order.order_amount }}</td>
+      <td>{{ order.status }}</td>
+      <td><button class="btn waves-effect waves-light modal-trigger red darken-1"><a href="/merchant/order/{{order.id}}/">Go to Order</a>
+    </button></td>
+    </tr>
+    {% endfor %}
+    
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "merchant/base.html" %}
+
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col s8">
+    <div class="row">
+      <div class="input-field col s4">
+        <button class="btn waves-effect waves-light modal-trigger red darken-1" type="submit" name="action" data-target="viewtyrecategory">View Tyrecategories
+        </button>
+      </div>
+      <div class="input-field col s4">
+        <button class="btn waves-effect waves-light modal-trigger red darken-1" type="submit" name="action" data-target="viewtyres">View Tyres
+        </button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+<br/>
+
+<table class="striped responsive-table center" >
+  <thead>
+    <tr>
+        <th>Client Name</th>
+        <th>Order Total Received</th>
+        <th>Order Amount Remaining</th>
+        <th>Total Order Count</th>
+    </tr>
+  </thead>
+
+  <tbody id="clients">
+    {% for cilent in clients %}
+    <tr>
+      <td>{{ cilent.name }}</td>
+      <td>{{ cilent.orderamount_received }}</td>
+      <td>{{ cilent.orderamount_remaining }}</td>
+      <td>{{ issue.ordercount | default:0 }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+
+<div id="viewtyrecategory" class="modal">
+  <h5 class="modal-close">&#10005;</h5>
+  <div class="modal-content center">
+    <h4>All Tyrecategory</h4>
+    <br>
+    <table class="striped responsive-table center" >
+      <thead>
+        <tr>
+            <th>Tyrecategory</th>
+        </tr>
+      </thead>
+    
+      <tbody id="tyrecategory">
+        {% for tyrecategory in tyrecategories %}
+        <tr>
+          <td>{{ tyrecategory.type_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    
+  </div>
+</div>
+
+<div id="viewtyres" class="modal">
+  <h5 class="modal-close">&#10005;</h5>
+  <div class="modal-content center">
+    <h4>All Tyres</h4>
+    <br>
+    <table class="striped responsive-table center" >
+      <thead>
+        <tr>
+            <th>Tyre category</th>
+            <th>Size</th>
+            <th>Amount</th>
+        </tr>
+      </thead>
+    
+      <tbody id="Tyres">
+        {% for tyre in Tyres %}
+        <tr>
+          <td>{{ tyre.type }}</td>
+          <td>{{ tyre.size }}</td>
+          <td>{{ tyre.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+{% extends "client/base.html" %}
+
+{% load mathfilters %}
+
+{% block jquery %}
+<script>
+  /*ajax search */
+  $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          console.log(value);
+          $("#orders tr").filter(function () {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+      });
+  });
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <div class="input-field col s6">
+      <i class="indigo-text material-icons prefix">search</i>
+      <input type="text" id="myInput" placeholder="Search" class="autocomplete indigo-text" >
+    </div>
+  </div>
+</div>
+
+
+<br/>
+
+<table class="striped responsive-table center" >
+  <thead>
+    <tr>
+        <th>Order Date</th>
+        <th>Amount Remaining</th>
+        <th>Total Amount</th>
+        <th>Order Status</th>
+        <th>View Order</th>
+    </tr>
+  </thead>
+
+  <tbody id="orders">
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.order_date }}</td>
+      <td>{{ order.order_amount|sub:order.amount_paid }}</td>
+      <td>{{ order.order_amount }}</td>
+      <td>{{ order.status }}</td>
+      <td><button class="btn waves-effect waves-light modal-trigger red darken-1" type="submit" name="action" data-target="{{order.id}}">View
+    </button></td>
+    </tr>
+    {% endfor %}
+    
+  </tbody>
+</table>
+
+{% for order in orders %}
+<div id="{{order.id}}" class="modal">
+    <h5 class="modal-close">&#10005;</h5>
+    <div class="modal-content center">
+      <h4>All Items</h4>
+      <br>
+      <table class="striped responsive-table center" >
+        <thead>
+          <tr>
+              <th>Tyre category</th>
+              <th>Tyre Name</th>
+              <th>Quantity</th>
+              <th>Total Amount</th>
+          </tr>
+        </thead>
+      
+        <tbody id="Tyres">
+          {% for orderitem in order.order_items_set.all %}
+          <tr>
+            <td>{{ orderitem.item.type }}</td>
+            <td>{{ orderitem.item.size }}</td>
+            <td>{{ orderitem.quantity }}</td>
+            <td>{{ orderitem.amount }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+      
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+{% endblock %}
